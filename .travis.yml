@@ -2,4 +2,4 @@ language: generic
 
 install: gem install twurl
 
-script: twurl -a $TWITTER_TOKEN -S $TWITTER_SECRET /1.1/statuses/home_timeline.json | jq
+script: twurl authorize -a $TWITTER_TOKEN -S $TWITTER_SECRET && twurl /1.1/statuses/home_timeline.json | jq .
