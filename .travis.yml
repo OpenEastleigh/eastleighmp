@@ -1,0 +1,5 @@
+language: generic
+
+install: gem install twurl
+
+script: twurl --version && jq --version
