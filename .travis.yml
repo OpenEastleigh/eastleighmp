@@ -2,4 +2,4 @@ language: generic
 
 install: gem install twurl
 
-script: source ./scripts/init-twurl.sh && twurl /1.1/statuses/home_timeline.json | jq .
+script: ./scripts/init-twurl.sh && ./scripts/mirror-tweets.sh
