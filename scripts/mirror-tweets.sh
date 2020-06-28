@@ -17,7 +17,7 @@ if [ ${MAX_TWEET_LEN:-0} -gt 0 ]; then
   cat tweets.txt
 fi
 
-if [ ${TRAVIS_EVENT_TYPE} = "cron" ]; then
+if [ ${TRAVIS_EVENT_TYPE} = "cron" ] && [ ${MAX_TWEET_LEN:-0} -gt 0 ]; then
   echo Tweet here
   # xargs -I{} twurl -d 'status={}' /1.1/statuses/update.json < tweets.txt
 else
