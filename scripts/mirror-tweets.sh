@@ -11,4 +11,15 @@ twurl -j "/1.1/search/tweets.json?q=(from:pauljholmes)+since:${SINCE}+until:${UN
   cut -c 1-280 | \
   tac > tweets.txt
 
-cat tweets.txt
+MAX_TWEET_LEN=$(wc -L < tweets.txt)
+
+if [ ${MAX_TWEET_LEN:-0} -gt 0 ]; then
+  cat tweets.txt
+fi
+
+if [ ${TRAVIS_EVENT_TYPE} = "cron" ]; then
+  echo Tweet here
+  # xargs -I{} twurl -d 'status={}' /1.1/statuses/update.json < tweets.txt
+else
+  echo ${TRAVIS_EVENT_TYPE}
+fi
