@@ -18,8 +18,10 @@ if [ ${MAX_TWEET_LEN:-0} -gt 0 ]; then
 fi
 
 if [ ${TRAVIS_EVENT_TYPE} = "cron" ] && [ ${MAX_TWEET_LEN:-0} -gt 0 ]; then
-  echo Tweet here
-  # xargs -I{} twurl -d 'status={}' /1.1/statuses/update.json < tweets.txt
+  echo ${TRAVIS_EVENT_TYPE}: Tweet here!
+  xargs -0 -d '\n' -L 1 -I{} echo Tweet: {} < tweets.txt
+  # xargs -0 -d '\n' -L 1 -I{} twurl -d 'status={}' /1.1/statuses/update.json < tweets.txt
 else
-  echo ${TRAVIS_EVENT_TYPE}
+  echo ${TRAVIS_EVENT_TYPE}: Don't tweet!
+  xargs -0 -d '\n' -L 1 -I{} echo Tweet: {} < tweets.txt
 fi
