@@ -15,12 +15,12 @@ if [ -f tweetaa ]; then
     echo "${TRAVIS_EVENT_TYPE}: Tweet here!"
     find . -type f -name 'tweet*' -print0 | \
       sort -z | \
-      xargs -0 -L 1 sh -c 'file="$1"; tweet=$(cat "$file" | jq -r . | sed "s/\B@\([a-zA-Z0-9_]\+\)/\1/g" | cut -c 1-280); echo "Tweet: $tweet"' _
+      xargs -0 -L 1 sh -c 'file="$1"; tweet=$(cat "$file" | jq -r . | sed "s/\B@\([a-zA-Z0-9_]\+\)/\1/g" | cut -c 1-280); echo "Tweeting: $tweet"; twurl -d "status=$tweet" /1.1/statuses/update.json' _
   else
     echo "${TRAVIS_EVENT_TYPE}: Don't tweet!"
     find . -type f -name 'tweet*' -print0 | \
       sort -z | \
-      xargs -0 -L 1 sh -c 'file="$1"; tweet=$(cat "$file" | jq -r . | sed "s/\B@\([a-zA-Z0-9_]\+\)/\1/g" | cut -c 1-280); echo "Tweet: $tweet"' _
+      xargs -0 -L 1 sh -c 'file="$1"; tweet=$(cat "$file" | jq -r . | sed "s/\B@\([a-zA-Z0-9_]\+\)/\1/g" | cut -c 1-280); echo "Not tweeting: $tweet"' _
   fi
 else
   echo "${TRAVIS_EVENT_TYPE}: No tweets!"
