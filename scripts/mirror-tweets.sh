@@ -2,10 +2,11 @@
 
 set -ev
 
+: ${FROM:?"FROM must be set to the Twitter account to mirror"}
 SINCE=$(date --date='yesterday' +%F)
 UNTIL=$(date +%F)
 
-twurl "/1.1/search/tweets.json?q=(from:pauljholmes)+since:${SINCE}+until:${UNTIL}&result_type=recent&tweet_mode=extended" | \
+twurl "/1.1/search/tweets.json?q=(from:${FROM})+since:${SINCE}+until:${UNTIL}&result_type=recent&tweet_mode=extended" | \
   jq -c '.statuses[].full_text' | \
   tac | \
   split -l 1 - tweet
