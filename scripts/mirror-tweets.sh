@@ -7,7 +7,7 @@ SINCE=$(date --date='yesterday' +%F)
 UNTIL=$(date +%F)
 
 twurl "/1.1/search/tweets.json?q=(from:${FROM})+since:${SINCE}+until:${UNTIL}&result_type=recent&tweet_mode=extended" | \
-  jq -c '.statuses[].full_text | sub("\\B@(?<user>[a-zA-Z0-9_]+)"; .user) | { tweet: .[:280], excess: .[280:] }' | \
+  jq -c '.statuses[].full_text | gsub("\\B@(?<user>[a-zA-Z0-9_]+)"; .user) | { tweet: .[:280], excess: .[280:] }' | \
   tac | \
   split -l 1 - tweet
 
