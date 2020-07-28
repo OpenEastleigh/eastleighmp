@@ -16,12 +16,12 @@ if [ -f tweetaa ]; then
     echo "${TRAVIS_EVENT_TYPE}: Tweet here!"
     find . -type f -name 'tweet*' -print0 | \
       sort -z | \
-      xargs -0 -L 1 sh -c 'file="$1"; tweet=$(jq -r @uri "$file"); echo "Tweeting: $tweet"; twurl --raw-data "status=$tweet" /1.1/statuses/update.json' _
+      xargs -0 -L 1 sh -c 'file="$1"; tweet=$(he --decode < "$file" | jq -r @uri); echo "Tweeting: $tweet"; twurl --raw-data "status=$tweet" /1.1/statuses/update.json' _
   else
     echo "${TRAVIS_EVENT_TYPE}: Don't tweet!"
     find . -type f -name 'tweet*' -print0 | \
       sort -z | \
-      xargs -0 -L 1 sh -c 'file="$1"; tweet=$(jq -r @uri "$file"); echo "Not tweeting: $tweet"' _
+      xargs -0 -L 1 sh -c 'file="$1"; tweet=$(he --decode < "$file" | jq -r @uri); echo "Not tweeting: $tweet"' _
   fi
 else
   echo "${TRAVIS_EVENT_TYPE}: No tweets!"
