@@ -1,5 +1,0 @@
-language: generic
-
-install: gem install twurl
-
-script: npm -g install he@1.2.0 && ./scripts/init-twurl.sh && ./scripts/mirror-tweets.sh

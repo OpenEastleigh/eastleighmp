@@ -1,0 +1,44 @@
+name: Mirror
+
+# Controls when the workflow will run
+on:
+  schedule:
+    - cron: '43 5 * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0'
+          bundler-cache: true
+
+      - name: Install dependencies
+        run: |
+          gem install twurl
+          npm -g install he@1.2.0
+
+      - name: Init twurl
+        run: ./scripts/init-twurl.sh
+        env:
+          TWITTER_USERNAME: eastleighmp
+          TWITTER_CONSUMER_KEY: ${{ secrets.TWITTER_CONSUMER_KEY }}
+          TWITTER_CONSUMER_SECRET: ${{ secrets.TWITTER_CONSUMER_SECRET }}
+          TWITTER_TOKEN: ${{ secrets.TWITTER_TOKEN }}
+          TWITTER_SECRET: ${{ secrets.TWITTER_SECRET }}
+
+      - name: Mirror tweets
+        run: ./scripts/mirror-tweets.sh
+        env:
+          FROM: pauljholmes
+          MIRROR_MODE: dryrun
