@@ -1,6 +1,5 @@
-name: Mirror
+name: Main
 
-# Controls when the workflow will run
 on:
   schedule:
     - cron: '43 5 * * *'
@@ -39,4 +38,4 @@ jobs:
         run: ./scripts/mirror-tweets.sh
         env:
           FROM: pauljholmes
-          MIRROR_MODE: dryrun
+          MIRROR_MODE: ${{ github.event_name == 'schedule' && 'mirror' || 'dryrun' }}
