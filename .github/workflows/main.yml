@@ -38,4 +38,3 @@ jobs:
         run: ./scripts/mirror-tweets.sh
         env:
           FROM: pauljholmes
-          MIRROR_MODE: ${{ github.event_name == 'schedule' && 'mirror' || 'dryrun' }}
