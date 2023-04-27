@@ -38,3 +38,6 @@ jobs:
         run: ./scripts/mirror-tweets.sh
         env:
           FROM: pauljholmes
+          SINCE: ${{ vars.SINCE }}
+          UNTIL: ${{ vars.UNTIL }}
+          MIRROR_MODE: ${{ vars.MIRROR_MODE }}
